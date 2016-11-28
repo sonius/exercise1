@@ -30,7 +30,7 @@ class ApiController extends BaseController {
             $this->setData($Cinemas);
 
             //make call to retrieve all cinemas
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->setSuccess(false);
             $this->setData($ex->getMessage());
         }
@@ -47,7 +47,7 @@ class ApiController extends BaseController {
             $this->setData($Cinema);
 
             //make call to get cinema 
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->setSuccess(false);
             $this->setData($ex->getMessage());
         }
@@ -57,12 +57,14 @@ class ApiController extends BaseController {
     function getMovie($name) {
 
         try {
-
+            $movie = $this->Movie->retreiveByName($name);           
+            
+            
             $Movie = $this->Movie->retreiveByNameWithInfo(urldecode($name));
             $this->setData($Movie);
 
             //make call to get cinema 
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->setSuccess(false);
             $this->setData($ex->getMessage());
         }

@@ -15,19 +15,27 @@ class Movie extends Model implements InterfaceMovie {
 
     public function retreiveByNameWithInfo($name) {
 
-        $result = [];
-        $movie = $this->retreiveByName($name);
-        $result['movie'][] = $movie;        
+        try {
+            $result = [];
+            $movie = $this->retreiveByName($name);
+            
+            if($movie == NULL){
+                throw new \Exception('no movie');
+            }
+            
+            $result['movie'][] = $movie;
 
-        
-        foreach($movie->Cinemas as $Cinema){
-            $CinemaSession = $Cinema->getSessions($movie->id);
-            $result['sessions']['cinema_ids'][$Cinema->id]=$CinemaSession;
 
+            foreach ($movie->Cinemas as $Cinema) {
+                $CinemaSession = $Cinema->getSessions($movie->id);
+                $result['sessions']['cinema_ids'][$Cinema->id] = $CinemaSession;
+            }
+
+            return $result;
+        } catch (\Exception $ex) {
+         
+            throw $ex;
         }
-        
-        return $result;
-
     }
 
     public function Cinemas() {
